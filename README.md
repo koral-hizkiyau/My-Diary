@@ -2,7 +2,7 @@
 
 # My Diary
 
-My diary is a site used as a planning board, adding appointments, adding to-do lists, chatting to talk to people around the site, and more...
+My Diary is a website that serves as a calendar and can add appointments, add a to-do list, and chat with people around the site.
 
 [Website Link](https://my-diary-web.netlify.app/) 
 
