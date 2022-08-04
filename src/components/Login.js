@@ -86,7 +86,7 @@ function Login(){
           event.preventDefault();
           if(validateForm(event)){
           let bodyData = {
-              email: event.target.id_email.value,
+              email: event.target.id_email.value.toLowerCase(),
               password: event.target.id_password.value
           }
 
@@ -96,7 +96,6 @@ function Login(){
                   //אומר שהצלחנו לקבל טוקן
                   if (data.token) {
                       localStorage.setItem(process.env.REACT_APP_LOCALHOST_KEY, data.token);
-                      console.log("connect");
                       navi("/homepage");
                   }
                   if (data.message === false) {
