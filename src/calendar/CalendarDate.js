@@ -103,7 +103,6 @@ function CalendarDate(){
       addAppointment(appData, userT)
     }
     if (changed) {
-console.log("a");
       setData(data.map(appointment => (
         changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment)));
 

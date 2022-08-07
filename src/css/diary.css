@@ -1,0 +1,131 @@
+.diary-app {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    width: 520px;
+    background: #161a2b;
+    text-align: center;
+    margin: auto;
+    margin-left: 33%;
+    margin-top: 1%;
+    border-radius: 10px;
+    padding-bottom: 1%;
+  }
+
+  #outlined-multiline-static{
+    color: white;
+  }
+  #textMulti{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 450px;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
+
+  .addButton{
+    margin-top: 10px !important;
+    background: linear-gradient( 90deg, rgba(93, 12, 255, 1) 0%, rgba(155, 0, 250, 1) 100% );
+  }
+  .addButton2{
+    margin-top: 30px !important;
+    background: linear-gradient( 90deg, rgba(93, 12, 255, 1) 0%, rgba(155, 0, 250, 1) 100% );
+  }
+
+
+  .front,.back{
+    width: 287px;
+    height: 287px;
+    overflow: hidden;
+    backface-visibility: hidden;
+    position: absolute;
+    transition: transform .6s linear;
+  }
+.front {
+    color: white;
+    transform: perspective(600px) rotateY(0deg); 
+       background: linear-gradient( 90deg, rgba(93, 12, 255, 1) 0%, rgba(155, 0, 250, 1) 100% );
+
+
+}
+.back{
+  background: linear-gradient( 90deg, rgba(255, 12, 241, 1) 0%, rgba(250, 0, 135, 1) 100% );
+       transform: perspective(600px) rotateY(-180deg); 
+}
+
+.card.rotated > .front{
+    transform: perspective(600px) rotateY(180deg);
+  }
+.card.rotated > .back{ 
+    transform: perspective(600px) rotateY(0deg);
+    overflow-y: scroll;
+
+  }  
+
+  .card.rotated > .back::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  .card.rotated > .back::-webkit-scrollbar-track {
+    background: #888; 
+  }
+   
+  /* Handle */
+  .card.rotated > .back::-webkit-scrollbar-thumb {
+        background: linear-gradient( 90deg, rgba(93, 12, 255, 1) 0%, rgba(155, 0, 250, 1) 100% );
+        border-radius: 20px;
+
+  }
+  
+  /* Handle on hover */
+  .card.rotated > .back::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
+
+  .btnOpen{
+    background: linear-gradient( 90deg, rgba(93, 12, 255, 1) 0%, rgba(155, 0, 250, 1) 100% );
+    margin: 2px !important;
+ }
+
+    .page-popup {
+        position: fixed;
+        z-index: 9;
+        background: linear-gradient( 90deg, rgba(255, 12, 241, 1) 0%, rgba(250, 0, 135, 1) 100% ) !important;
+        font-size: 24px;
+        width: 98% !important;
+        margin-top: -10% !important;
+        height: 99vh !important;
+        background-position: center center;
+        overflow-y: scroll;
+        word-wrap: break-word;
+        padding: 4px;
+
+    }
+    .page-popup::-webkit-scrollbar{
+      width: 10px;
+    }
+    .page-popup::-webkit-scrollbar {
+      width: 10px;
+    }
+    
+    /* Track */
+    .page-popup::-webkit-scrollbar-track {
+      background: #888; 
+    }
+     
+    /* Handle */
+    .page-popup::-webkit-scrollbar-thumb {
+          background: linear-gradient( 90deg, rgba(93, 12, 255, 1) 0%, rgba(155, 0, 250, 1) 100% );
+          border-radius: 20px;
+  
+    }
+    
+    /* Handle on hover */
+    .page-popup::-webkit-scrollbar-thumb:hover {
+      background: #555; 
+    }
+  
+    

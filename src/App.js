@@ -8,8 +8,8 @@ import SetAvatar from './chats/SetAvatar';
 import Chat from './components/chat';
 import Homepage from './components/Homepage';
 import Todolists from './components/Todolists';
-import { useNavigate } from "react-router-dom";
 import MyProfile from './profile/MyProfile';
+import Diary from './components/Diary';
 
 
 function App() {
@@ -35,6 +35,7 @@ function App() {
 <Route path="/homepage" element={<Homepage/>}/>
 <Route path="/todolist" element={<Todolists/>}/>
 <Route exact path="/myprofile" element={<MyProfile/>}/>
+<Route path='/diary' element={<Diary/>}/>
 <Route path="*" element={<Navigate to='/' replace />} />
 
 </Routes>

@@ -17,8 +17,8 @@ import jwt_decode from "jwt-decode";
 import { apiUrl, doApiGet } from './services/apiService';
 
 
-const pages = ['To-Do-Lists', 'Chats'];
-const links = ['/todolist', '/chat'];
+const pages = ['Diary','To-Do-Lists', 'Chats'];
+const links = ['/diary','/todolist', '/chat'];
 const settings = ['Profile','Logout'];
 
 const Nav = () => {

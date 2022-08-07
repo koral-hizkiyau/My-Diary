@@ -36,6 +36,26 @@ export const addNewAppointment = async (arr) => {
 
 
 }
+export const addNewDiaryUser = async (arr) => {
+    let url = apiUrl+'diary/addnew';
+   let data = doApiPost(url, arr);
+   return data;
+
+
+}
+export const addDiary = async (arr, allData) => {
+    let url = apiUrl+'diary/add';
+    let userData  = {arr, allData};
+   let data = doApiPost(url, { userData });
+   return data;
+}
+
+export const editRotateDiary = async (arr, allData) => {
+    let url = apiUrl+'diary/editRotate';
+    let userData  = {arr, allData};
+   let data = doApiPost(url, { userData });
+   return data;
+}
 
 export const addNewTodolist = async (arr) => {
     let url = apiUrl+'todolist/addnew';
