@@ -59,7 +59,6 @@ export default function DiaryPages(props) {
 
 const delPage=(page_id)=> {
     let arr = props.diarypagesArr.filter(page => page._id !== page_id);
-    console.log(arr);
     swal({
       title: "Are you sure?",
       text: "Once deleted, you will not be able to recover this journal page!",
@@ -103,7 +102,6 @@ const delPage=(page_id)=> {
       }}
     >
 {props.diarypagesArr.map((paper,i) => {
-    let currentDate = convertDate(paper.date);
 return (
     <>
     {paper.isOpen ?
@@ -118,7 +116,7 @@ return (
     <Paper key={paper._id} elevation={i} className={`card ${paper.rotate ? 'rotated': '' }`} onClick={()=>onRotate1(paper)}>
 
     <div className="front"> 
-    <Typography variant="h5" style={{margin: "2%"}}>{currentDate}</Typography>
+    <Typography variant="h5" style={{margin: "2%"}}>{paper.date}</Typography>
     <Typography variant="h4" style={{display: "flex",justifyContent:'center',marginTop:"29%"}}>{paper.title}</Typography>
 </div>
 
