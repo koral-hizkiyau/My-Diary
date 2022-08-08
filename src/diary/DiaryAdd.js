@@ -6,9 +6,11 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Button } from '@mui/material';
 import { addDiary } from '../js/data';
+import { convertDate } from '../js/data';
 
 export default function DiaryAdd(props) {
-    const [value, setValue] = useState(new Date());
+    const [value, setValue] = useState(convertDate(new Date()));
+
     const titleAdd = useRef();
     const dateAdd = useRef();
     const textAdd = useRef();
@@ -35,7 +37,7 @@ export default function DiaryAdd(props) {
 
   return (
     <div className='diary-app'>
-        <form action="" onSubmit={(event) => sendToDiary(event,)}>
+        <form action="" onSubmit={(event) => sendToDiary(event)}>
 
 <div className='row' style={{margin: "2%", justifyContent: "center" , display: "flex"}}>
     <div className='col-lg-6' id='titleAdd'>
@@ -50,14 +52,14 @@ export default function DiaryAdd(props) {
          inputProps={{ maxLength: 14 }}
 
           required
-          focused          /></div>
+          focused/></div>
           <div className='col-lg-6' id='dateAdd'>
             <LocalizationProvider dateAdapter={AdapterDateFns}> 
             <DatePicker
           disableFuture
           value={value}
           onChange={(newValue) => {
-            setValue(newValue);
+            setValue(convertDate(newValue));
           }}
           renderInput={(params) => <TextField {...params} required inputRef={dateAdd}
           sx={{

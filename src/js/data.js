@@ -56,6 +56,14 @@ export const editRotateDiary = async (arr, allData) => {
    let data = doApiPost(url, { userData });
    return data;
 }
+export const delDiaryPage = async (arr, allData) => {
+    let url = apiUrl+'diary/del';
+    let userData  = {arr, allData};
+    let data = doApiPost(url, { userData });
+    return data;
+
+
+}
 
 export const addNewTodolist = async (arr) => {
     let url = apiUrl+'todolist/addnew';
@@ -83,16 +91,13 @@ export function parseJwt(token) {
     return JSON.parse(jsonPayload);
 };
 
-export function getRandomColor() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  }  
 
           
+  export function convertDate(inputFormat) {
+    function pad(s) { return (s < 10) ? '0' + s : s; }
+    var d = new Date(inputFormat)
+    return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('/')
+  }
 
 
 

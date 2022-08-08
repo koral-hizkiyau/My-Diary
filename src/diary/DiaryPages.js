@@ -1,9 +1,14 @@
 import { Box, Button, Paper, Typography } from '@mui/material'
 import React, {  useEffect, useState } from 'react'
 import "../css/diary.css";
-import { editRotateDiary } from '../js/data';
+import { editRotateDiary ,convertDate, delDiaryPage } from '../js/data';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import swal from 'sweetalert';
+import { useNavigate } from "react-router-dom";
 
 export default function DiaryPages(props) {
+    const navi = useNavigate();
     const [isRotated, setIsRotated] = useState(false);
     const [flag2, setFlag2] = useState(false);
     const [currentArr, setCurrentArr] = useState([]);
@@ -52,11 +57,30 @@ export default function DiaryPages(props) {
         editRotateDiary(newRotate, props.userToken);               
  }
 
- function convertDate(inputFormat) {
-    function pad(s) { return (s < 10) ? '0' + s : s; }
-    var d = new Date(inputFormat)
-    return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('/')
-  }
+const delPage=(page_id)=> {
+    let arr = props.diarypagesArr.filter(page => page._id !== page_id);
+    console.log(arr);
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this journal page!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        swal("Poof! Your journal page has been deleted!", {
+          icon: "success",
+        }).then(()=>{
+            delDiaryPage(arr, props.allData);
+           props.SetDiarypagesArr(props.diarypagesArr.filter(page => page._id !== page_id));
+
+        })
+      }else{
+        swal("Your appointment not deleted!");
+      }
+    });
+}
 
 
   return (
@@ -85,7 +109,10 @@ return (
     {paper.isOpen ?
 
         <div className='page-popup' style={{color: "white"}}>
-       <Button variant="contained" className='btnOpen' style={{display: "block" }} onClick={()=>OnOpen(paper)}>Zoom Out</Button>{paper.text}
+<div style={{display: "block" }}><IconButton aria-label="delete" size="large" onClick={()=>delPage(paper._id)}>
+        <DeleteIcon fontSize="inherit" />
+      </IconButton>
+       <Button variant="contained" className='btnOpen'  onClick={()=>OnOpen(paper)}>Zoom Out</Button></div>{paper.text}
         </div>
         : ""}
     <Paper key={paper._id} elevation={i} className={`card ${paper.rotate ? 'rotated': '' }`} onClick={()=>onRotate1(paper)}>

@@ -14,17 +14,19 @@ export default function Diary() {
   const [flagAdd , SetFlagAdd] = useState(false);
   const [diarypagesArr , SetDiarypagesArr] = useState([]);
   let userToken = jwt_decode(localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY));
+  const [allData, setAllData] = React.useState([]);
 
   useEffect( () => {
     if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
       navi("/");
     } else {
+      console.log("new");
       let userToken = jwt_decode(localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY));
       let diarypages = apiUrl + "diary";
       doApiGet(diarypages)
       .then(data => {
         let arr = data.filter(item => item.user_id === userToken._id);
-        console.log(arr);
+        setAllData(arr);
         if(arr.length > 0){
           if(arr[0].user_pages.length > 0){
           SetDiarypagesArr(arr[0].user_pages);
@@ -60,7 +62,7 @@ export default function Diary() {
       {flagAdd ? 
         <DiaryAdd userToken={userToken} SetFlagAdd={SetFlagAdd} flagAdd={flagAdd} diarypagesArr={diarypagesArr} SetDiarypagesArr={SetDiarypagesArr} />
 : ""}
-        <DiaryPages diarypagesArr={diarypagesArr} userToken={userToken}/>
+        <DiaryPages diarypagesArr={diarypagesArr} userToken={userToken} SetDiarypagesArr={SetDiarypagesArr} allData={allData}/>
     </>
   )
 }
