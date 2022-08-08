@@ -26,16 +26,18 @@ function Login(){
 
     useEffect(() => {
       let urlToken = apiUrl + 'users/checkToken';
-      let urlUsers = apiUrl + "users";
+      let urlUsers = apiUrl + 'users';
 
       if (localStorage[process.env.REACT_APP_LOCALHOST_KEY]) {
 
-       
+       console.log("yes");
         let token = parseJwt(localStorage[process.env.REACT_APP_LOCALHOST_KEY]) 
-        doApiGetToken(urlUsers)
+        doApiGet(urlUsers)
           .then(data => {
             let count =0;
+            console.log(data);
             data.map(item => {
+              console.log(item);
               if (item.email === token.email) {
                 count++
               }
@@ -57,7 +59,6 @@ function Login(){
           })
       }
       else {
-        let urlUsers = apiUrl + "users";
                     doApiGet(urlUsers)
                         .then(data => {
                             setUsers(data)
