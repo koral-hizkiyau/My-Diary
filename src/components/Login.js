@@ -30,7 +30,6 @@ function Login(){
 
       if (localStorage[process.env.REACT_APP_LOCALHOST_KEY]) {
 
-       console.log("yes");
         let token = parseJwt(localStorage[process.env.REACT_APP_LOCALHOST_KEY]) 
         doApiGet(urlUsers)
           .then(data => {
