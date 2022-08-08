@@ -32,13 +32,17 @@ function Login(){
 
        
         let token = parseJwt(localStorage[process.env.REACT_APP_LOCALHOST_KEY]) 
-        //בודק אם האימייל הוא מנהל או משתמש רגיל
         doApiGetToken(urlUsers)
           .then(data => {
+            let count =0;
             data.map(item => {
               if (item.email === token.email) {
+                count++
               }
             })
+            if (count > 0) {
+              document.location.href = "/homepage"
+          }
 
           })
         fetch(urlToken, {
