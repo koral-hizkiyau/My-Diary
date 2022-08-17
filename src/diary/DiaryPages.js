@@ -116,7 +116,7 @@ return (
     <Paper key={paper._id} elevation={i} className={`card ${paper.rotate ? 'rotated': '' }`} onClick={()=>onRotate1(paper)}>
 
     <div className="front"> 
-    <Typography variant="h5" style={{margin: "2%"}}>{paper.date}</Typography>
+    <Typography variant="h5" style={{margin: "2%"}}>{convertDate(paper.date)}</Typography>
     <Typography variant="h4" style={{display: "flex",justifyContent:'center',marginTop:"29%"}}>{paper.title}</Typography>
 </div>
 

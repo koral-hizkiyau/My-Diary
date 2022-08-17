@@ -9,7 +9,7 @@ import { addDiary } from '../js/data';
 import { convertDate } from '../js/data';
 
 export default function DiaryAdd(props) {
-    const [value, setValue] = useState(convertDate(new Date()));
+    const [value, setValue] = useState(new Date());
 
     const titleAdd = useRef();
     const dateAdd = useRef();
@@ -59,7 +59,7 @@ export default function DiaryAdd(props) {
           disableFuture
           value={value}
           onChange={(newValue) => {
-            setValue(convertDate(newValue));
+            setValue(newValue);
           }}
           renderInput={(params) => <TextField {...params} required inputRef={dateAdd}
           sx={{
