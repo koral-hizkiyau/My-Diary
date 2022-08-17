@@ -4,9 +4,12 @@ import jwt_decode from "jwt-decode";
 import { apiUrl, doApiGet } from '../services/apiService';
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import ChangeCircleRoundedIcon from '@mui/icons-material/ChangeCircleRounded';
+import SetAvatar from "../chats/SetAvatar";
 
 function MyProfile() {
     const [myprofile, setMyProfile] = useState([{"_id": "","username": "","email": "","avatarImage": ""}]);
+    const [flag, setFlag] = useState(true);
     const navi = useNavigate();
 
 
@@ -24,21 +27,29 @@ function MyProfile() {
           }
         },[])
 
+        const OnClickChangeAvatar=()=>{
+
+          setFlag(!flag);
+        }
+
   return (
 
     <Container>
         <Nav/>
-
+        {flag ?
         <div className="clearfix">
         <div className="row">
             <div className="col-md-4 animated fadeIn d-flex justify-content-center" style={{margin: "auto"}} key={myprofile[0]._id}>
               <div className="card">
                 <div className="card-body">
                   <div className="avatar">
+                  <ChangeCircleRoundedIcon color='primary' sx={{ position: "relative",left: "128px",top: "-18px"}}  onClick={()=>OnClickChangeAvatar()}/>
+
                     <img
 src={`data:image/svg+xml;base64,${myprofile[0].avatarImage}`} className="card-img-top"
                       alt="img" width={"150px"}
                     />
+
                   </div>
                   <h5 className="card-title">
                     {myprofile[0].username}
@@ -53,6 +64,8 @@ src={`data:image/svg+xml;base64,${myprofile[0].avatarImage}`} className="card-im
         </div>
        
       </div> 
+        : <SetAvatar/>}
+      
     </Container>
   )
 }
