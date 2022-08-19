@@ -20,7 +20,6 @@ export default function Diary() {
     if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
       navi("/");
     } else {
-      console.log("new");
       let userToken = jwt_decode(localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY));
       let diarypages = apiUrl + "diary";
       doApiGet(diarypages)

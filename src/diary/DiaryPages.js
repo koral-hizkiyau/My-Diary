@@ -1,26 +1,29 @@
 import { Box, Button, Paper, Typography } from '@mui/material'
-import React, {  useEffect, useState } from 'react'
+import React, {  useEffect, useRef, useState } from 'react'
 import "../css/diary.css";
 import { editRotateDiary ,convertDate, delDiaryPage } from '../js/data';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import swal from 'sweetalert';
 import { useNavigate } from "react-router-dom";
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import TextField from '@mui/material/TextField';
 
 export default function DiaryPages(props) {
     const navi = useNavigate();
     const [isRotated, setIsRotated] = useState(false);
     const [flag2, setFlag2] = useState(false);
     const [currentArr, setCurrentArr] = useState([]);
-
-
+    const [flagEdit, setFlagEdit] = useState(false);
+    const [value, setValue] = useState();
     useEffect(()=> {
 
         let arr = props.diarypagesArr.filter(item=>item.isOpen);
         if(arr.length > 0){
-            setFlag2(true)
+            setFlag2(true);
+
     }
-    },[props.counter])
+    },[])
 
     const onRotate1 = (rotate) =>{
         if(rotate.isOpen === false){
@@ -42,8 +45,9 @@ export default function DiaryPages(props) {
     } 
 
  const OnOpen=(arr)=>{
+  if(flagEdit)setFlagEdit(!flagEdit);
     setFlag2(!flag2);
-        let data = arr;
+            let data = arr;
         data.isOpen = !data.isOpen;
         let change = data.isOpen;
         let newRotate = props.diarypagesArr.map(paper => {
@@ -81,6 +85,30 @@ const delPage=(page_id)=> {
     });
 }
 
+const editPage=(paper)=>{
+if(paper.isOpen)setFlagEdit(!flagEdit);
+setValue("");
+}
+
+const sentEditPage=(event,arr)=>{
+  event.preventDefault();
+  let data = arr;
+  data.text = value;
+  let change = data.text;
+  let newRotate = props.diarypagesArr.map(paper => {
+  if(paper._id === arr._id){
+    return { ...paper, change }
+  }
+  else{
+    return paper
+  }
+  })
+editRotateDiary(newRotate, props.userToken);  
+setFlagEdit(!flagEdit);             
+
+
+}
+
 
   return (
     <div>
@@ -110,7 +138,26 @@ return (
 <div style={{display: "block" }}><IconButton aria-label="delete" size="large" onClick={()=>delPage(paper._id)}>
         <DeleteIcon fontSize="inherit" />
       </IconButton>
-       <Button variant="contained" className='btnOpen'  onClick={()=>OnOpen(paper)}>Zoom Out</Button></div>{paper.text}
+      <IconButton aria-label="edit" size="large" onClick={()=>editPage(paper)}>
+        <EditRoundedIcon fontSize="inherit" />
+      </IconButton>
+       <Button variant="contained" className='btnOpen' onClick={()=>OnOpen(paper)}>Zoom Out</Button></div>{paper.text}
+        {flagEdit ? <form action="" onSubmit={(event) => sentEditPage(event,paper)}>
+<TextField
+        required
+        value={value}
+        onChange={(e)=>setValue(e.target.value)}
+          id="outlined-multiline-static"
+          label="Enter your text here..."
+          multiline
+          rows={18}
+          sx={{
+             input: { color: "blue"}, position:"relative",backgroundColor:"lightgray",width:"100%"
+                    }}
+          focused
+        /> 
+        <Button type="submit" variant="contained" className='addButton' style={{display:"flex",justifyContent:"center",margin:"auto"}}>Edit</Button></form>
+         : ""}
         </div>
         : ""}
     <Paper key={paper._id} elevation={i} className={`card ${paper.rotate ? 'rotated': '' }`} onClick={()=>onRotate1(paper)}>
