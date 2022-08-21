@@ -74,11 +74,14 @@ function CalendarDate(){
        
       }
       else{
+        swal("Welcome!","Click on the box in the calendar to add a new appointment")
         newUser(userToken);
       }
    })  
   }  
   },[])
+
+
 
   const newUser = React.useCallback((userToken)=> {
     let newUserA = {user_id: userToken._id,
