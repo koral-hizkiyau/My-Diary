@@ -15,6 +15,11 @@ The site has a calendar where you can add appointments, a board for adding to-do
 
 [Website Link](https://my-diary-web.netlify.app/) 
 
+**For user demo try click:**
+
+**Email:**  demo6@gmail.com
+**Password:** demotry6
+
 ## Installation
 
 To install this library, run:
