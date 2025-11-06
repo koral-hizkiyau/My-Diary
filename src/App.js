@@ -18,15 +18,6 @@ function App() {
   return (
   <div className='App'>
     <Router> 
-       {/* <Routes>
-      <Route exact path={["/"]} render={() => {
-          return (
-            <React.Fragment>
-            </React.Fragment>
-          )
-        }
-        } />
-      </Routes>  */}
 <Routes>
 <Route exact path="/" element={<Login />} />
 <Route  path="/register" element={<Register />} />

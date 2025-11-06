@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import axios from "axios";
 import { Buffer } from "buffer";
 import loader from "../images/loader2.gif";
 import { ToastContainer, toast } from "react-toastify";
@@ -8,9 +7,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { apiUrl, doApiGet, doApiPostToken } from "../services/apiService";
 import jwt_decode from "jwt-decode";
+import multiavatar from "@multiavatar/multiavatar/esm";
 
 export default function SetAvatar() {
-    const api = `https://api.multiavatar.com/4645646`;
     const navi = useNavigate();
     const [avatars, setAvatars] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -43,49 +42,60 @@ export default function SetAvatar() {
       }, []);
 
 
+useEffect(() => {
+  let timer;
+  const seeds = Array.from({ length: 4 }, () =>
+    String(Math.floor(Math.random() * 1e12))
+  );
 
-  const setProfilePicture = async () => {
+  const items = seeds.map((seed) => {
+    const svg = multiavatar(seed); // SVG string
+    const b64 = window.btoa(unescape(encodeURIComponent(svg))); // for server
+    const blob = new Blob([svg], { type: "image/svg+xml" });
+    const preview = URL.createObjectURL(blob); // for <img>
+    return { b64, preview };
+  });
 
-    if (selectedAvatar === undefined) {
-      toast.error("Please select an avatar", toastOptions);
-    } else {
-      let user = myUser[0];
-      user.isAvatarImageSet = true;
-      user.avatarImage = avatars[selectedAvatar];
-  let updateUrl = apiUrl + 'users/updateavatar';
-
-  doApiPostToken(updateUrl, user)
-      .then(data => {
-          setMyUser(data)
-
-          navi("/homepage");
-
-          })
-        
-        }
-    
-  };
-
-
-  
-
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect( () => {
-    async function avatarSets() {
-    const data = [];
-    for (let i = 0; i < 4; i++) {
-      const image = await axios.get(
-        `${api}/${Math.round(Math.random() * 1000)}`
-      );
-      const buffer = new Buffer(image.data);
-      data.push(buffer.toString("base64"));
-    }
-    setAvatars(data);
+  timer = setTimeout(() => {
+    setAvatars(items);
     setIsLoading(false);
-}
-avatarSets();
-  }, []);
+  }, 600);
+
+  return () => {
+    clearTimeout(timer);
+    items.forEach((it) => URL.revokeObjectURL(it.preview));
+  };
+}, []);
+const setProfilePicture = async () => {
+  if (selectedAvatar === undefined) {
+    toast.error("Please select an avatar", toastOptions);
+    return;
+  }
+
+  let user = { ...myUser[0] };
+  user.isAvatarImageSet = true;
+user.avatarImage = avatars[selectedAvatar].b64; // base64 only, no data: prefix
+  user._id = myUser[0]._id;
+
+  const updateUrl = apiUrl + "users/updateavatar";
+  try {
+    const resp = await doApiPostToken(updateUrl, user);
+    if (resp && resp.isSet) {
+      setMyUser([{ ...user }]);
+      navi("/homepage");
+    } else {
+      toast.error("Failed to save avatar", toastOptions);
+    }
+  } catch (err) {
+    console.error(err);
+    toast.error("Error saving avatar", toastOptions);
+  }
+};
+
+
+
   
+
   return (
     <>
       {isLoading ? (
@@ -97,23 +107,18 @@ avatarSets();
           <div className="title-container">
             <h1>Pick an Avatar as your profile picture</h1>
           </div>
-          <div className="avatars">
-            {avatars.map((avatar, index) => {
-              return (
-                <div key={avatar}
-                  className={`avatar ${
-                    selectedAvatar === index ? "selected" : ""
-                  }`}
-                >
-                  <img
-                    src={`data:image/svg+xml;base64,${avatar}`}
-                    alt="avatar"
-                    onClick={() => setSelectedAvatar(index)}
-                  />
-                </div>
-              );
-            })}
-          </div>
+        <div className="avatars">
+  {avatars.map((a, index) => (
+    <div
+      key={index}
+      className={`avatar ${selectedAvatar === index ? "selected" : ""}`}
+      onClick={() => setSelectedAvatar(index)}
+    >
+      <img src={a.preview} alt="avatar" />
+    </div>
+  ))}
+</div>
+
           <button onClick={setProfilePicture} className="submit-btn">
             Set as Profile Picture
           </button>
